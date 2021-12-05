@@ -1,6 +1,8 @@
 # Student Number: 18051000
 # This file aims at getting features of images in the MRI dataset
 # Images are read and resized to 128x128 grayscale pixels
+# Labels are set between 0 and 1 for binary classification, and from 0 to
+# 3 for multiclass classification.
 # After reading all images, show_image() can display images (16 at most)
 
 
@@ -39,6 +41,7 @@ def image_reading(model, task):
     label_names = labels_df.iloc[:3000, 1]  # 3000 labels
     labels = []
     # Store labels for binary classification
+    # 0 represents no tumor, while 1 stands for having a tumor
     if task == 'binary':
         for tumor in label_names:
             if tumor == 'no_tumor':
@@ -46,6 +49,8 @@ def image_reading(model, task):
             else:
                 labels.append(1)
     # Store labels for multiclass classification
+    # 0 represents no tumor, 1 stands for having a glioma_tumor,
+    # 2 means having a meningioma_tumor, 3 means having a pituitary tumor
     elif task == 'multiclass':
         for tumor in label_names:
             if tumor == 'no_tumor':
