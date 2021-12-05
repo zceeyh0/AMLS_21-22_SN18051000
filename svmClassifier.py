@@ -12,8 +12,8 @@ from sklearn import metrics
 
 
 # build a SVM Classifier with hyper-parameter tuning and Cross Validation
-def svm_classifier(x_train, y_train, x_test, y_test, cv_num):
-    # build a model of SVM
+def svm_classification(x_train, y_train, x_test, y_test, cv_num=5):
+    # build a model of SVM with default parameters
     svm = SVC()
     # create a dictionary for hyper-parameter tuning
     # it stores all possible values for C (penalty of error),
@@ -37,9 +37,9 @@ def svm_classifier(x_train, y_train, x_test, y_test, cv_num):
     print('Time consumed for SVM predictions:',
           round(pred_t - train_t, 2), 's')
     # calculate the real accuracy score of this prediction
-    train_score = metrics.accuracy_score(y_train, y_pred1)
-    validate_score = metrics.accuracy_score(y_test, y_pred2)
-    # return the best SVM estimator, the highest accuracy score
+    training_score = metrics.accuracy_score(y_train, y_pred1)
+    validation_score = metrics.accuracy_score(y_test, y_pred2)
+    # return the best parameters, the highest accuracy score
     # from Cross Validation, and the real prediction result
-    return svm_gscv.best_params_, train_score, \
-           svm_gscv.best_score_, validate_score
+    return svm_gscv.best_params_, training_score, \
+           svm_gscv.best_score_, validation_score
