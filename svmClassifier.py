@@ -1,5 +1,5 @@
 # Student Number: 18051000
-# This file aims at building a SVM Classifier for classification tasks.
+# This file builds a SVM Classifier for classification tasks.
 # A SVM Classifier is built to train and test data.
 # Grid Search hyper-parameter tuning is used to find the optimal parameters.
 # Cross Validation method is used to train models in multiple groups.
@@ -37,9 +37,9 @@ def svm_classification(x_train, y_train, x_test, y_test, cv_num=5):
     print('Time consumed for SVM predictions:',
           round(pred_t - train_t, 2), 's')
     # calculate the real accuracy score of this prediction
-    training_score = metrics.accuracy_score(y_train, y_pred1)
-    validation_score = metrics.accuracy_score(y_test, y_pred2)
-    # return the best parameters, the highest accuracy score
-    # from Cross Validation, and the real prediction result
-    return svm_gscv.best_params_, training_score, \
-           svm_gscv.best_score_, validation_score
+    train_score = metrics.accuracy_score(y_train, y_pred1)
+    test_score = metrics.accuracy_score(y_test, y_pred2)
+    # return the best parameters, the train accuracy score,
+    # the mean Cross Validation score, and the test score
+    return svm_gscv.best_params_, train_score, \
+           svm_gscv.best_score_, test_score

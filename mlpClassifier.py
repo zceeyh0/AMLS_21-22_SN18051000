@@ -1,5 +1,5 @@
 # Student Number: 18051000
-# This file builds a MLP deep learning model for image classification.
+# This file builds a MLP deep learning model for classification tasks.
 # Hyper-parameter tuning is used to find the optimal output units,
 # learning rate for the optimiser, and the number of epochs.
 # The obtained hyper-parameters will be stored in a project called
@@ -19,9 +19,9 @@ import matplotlib.pyplot as plt
 def mlp(image_size=128, num_classes=4):
     model = tf.keras.Sequential()
     model.add(keras.layers.Flatten(input_shape=(image_size, image_size)))
-    model.add(keras.layers.Dense(672, activation='relu'))
+    model.add(keras.layers.Dense(768, activation='relu'))
     model.add(keras.layers.Dropout(0.2))
-    model.add(keras.layers.Dense(672, activation='relu'))
+    model.add(keras.layers.Dense(768, activation='relu'))
     model.add(keras.layers.Dropout(0.2))
     model.add(keras.layers.Dense(num_classes, activation='softmax'))
     model.compile(
@@ -44,7 +44,6 @@ def mlp_model(hp, image_size=128, num_classes=4):
     model.add(keras.layers.Dense(hp_units, activation='relu'))
     model.add(keras.layers.Dropout(0.2))
     model.add(keras.layers.Dense(hp_units, activation='relu'))
-    model.add(keras.layers.Dropout(0.2))
     # the number of final output should be equal to the number of classes
     model.add(keras.layers.Dense(num_classes, activation='softmax'))
 
@@ -61,7 +60,7 @@ def mlp_model(hp, image_size=128, num_classes=4):
 
 # Create a tuner for hyper-parameter tuning on MLP model
 # Return the created tuner and optimal hyper-parameters
-def build_tuner(x_train, y_train, x_test, y_test):
+def build_tuner(x_train, y_train):
     tuner = kt.Hyperband(mlp_model, objective='val_accuracy',
                          max_epochs=20, factor=3)
     # stop the tuning if there is no improvement on the prediction
@@ -69,7 +68,7 @@ def build_tuner(x_train, y_train, x_test, y_test):
     stop_early = keras.callbacks.EarlyStopping(monitor='val_loss', patience=5)
     # Search for the best hyper-parameters
     tuner.search(x_train, y_train, epochs=50,
-                 validation_data=(x_test, y_test), callbacks=[stop_early])
+                 validation_split=0.2, callbacks=[stop_early])
     # get the optimal hyper-parameters
     best_hps = tuner.get_best_hyperparameters(num_trials=1)[0]
     print('The optimal number of units in the '
@@ -80,7 +79,7 @@ def build_tuner(x_train, y_train, x_test, y_test):
     # build and fit the best MLP model with optimal hyper-parameters
     model = tuner.hypermodel.build(best_hps)
     history = model.fit(x_train, y_train, epochs=50,
-                        validation_data=(x_test, y_test))
+                        validation_split=0.2)
     print('Initial fitting is complete, epochs: ', 50)
     val_accuracy = history.history['val_accuracy']
     # obtain the number of epochs that brings the highest accuracy
@@ -92,11 +91,11 @@ def build_tuner(x_train, y_train, x_test, y_test):
 def mlp_classification(x_train, y_train, x_test, y_test):
     start_t = time.time()
     tuner, best_hps, best_epochs = \
-        build_tuner(x_train, y_train, x_test, y_test)
+        build_tuner(x_train, y_train)
     # retrain the MLP model with the best parameters and number of epochs
     mlp = tuner.hypermodel.build(best_hps)
     scores = mlp.fit(x_train, y_train, epochs=best_epochs,
-                     validation_data=(x_test, y_test))
+                     validation_split=0.2)
     print('Final fitting is complete, epochs: ', best_epochs)
     train_t = time.time()
     print('Time consumed for MLP training:',

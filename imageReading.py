@@ -1,9 +1,9 @@
 # Student Number: 18051000
-# This file aims at getting features of images in the MRI dataset
-# Images are read and resized to 128x128 grayscale pixels
+# This file gets features of images in the MRI dataset and their labels.
+# Images are read and resized to 128x128 grayscale pixels.
 # Labels are set between 0 and 1 for binary classification, and from 0 to
 # 3 for multiclass classification.
-# After reading all images, show_image() can display images (16 at most)
+# After reading all images, show_image() can display images (16 at most).
 
 
 import os
