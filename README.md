@@ -39,3 +39,4 @@ When downloading these packages/modules, other related packages/modules will be 
 4. Type a number (from 1 to 3) to choose a machine learning model (KNN, SVM, MLP). <br>
 5. Type a number (1 or 2) to choose a classification task (binary, multiclass). <br>
 6. Wait to see how successful your model is by checking the prediction accuracy displayed in different forms (scores in percentages, line charts, grid images with histograms). <br>
+#### Please Note: You may see a folder called 'untitled_project' generated in the project directory when you run the MLP model. This is the record of parameters from hyper-parameter tuning, which avoids repeating the tuning process and can be deleted once you don't need the parameters anymore. <br>
