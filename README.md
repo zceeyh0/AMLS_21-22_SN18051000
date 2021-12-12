@@ -15,8 +15,8 @@
 This repository consists of five python files, a README.md file, a folder and a .csv file (images and labels of the MRI dataset): <br>
 #### 1. `README.md`: <br>
 Introduction to this repository with instructions on how to compile and run the code. <br>
-#### 2. Folder `image` and `label.csv`:  <br>
-The folder `image` includes 3000 MRI images for training and validation. `label.csv` contains filenames of all the MRI images and their corresponding labels (types of tumor). <br>
+#### 2. Folders `train` and `test`:  <br>
+The folder `train` includes 3000 MRI images for training and validation. The folder `test` includes 200 MRI images for evaluation. The two csv files `label.csv` in both folders contain filenames of all the MRI images and their corresponding labels (types of tumor). <br>
 #### 3. `imageReading.py`: <br>
 This file gets features (pixel values) of images in the MRI dataset and their labels.
 #### 4. `knnClassifier.py`: <br>
