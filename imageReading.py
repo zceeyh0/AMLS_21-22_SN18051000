@@ -17,16 +17,25 @@ from skimage.transform import resize
 
 global basedir, image_paths, target_size
 basedir = 'D:\Study\MLNotebook\AMLS_21-22_SN18051000'
-images_dir = os.path.join(basedir, 'image')  # directory of images
-labels_filename = 'label.csv'  # directory of labels
 class_names = ['no_tumor', 'glioma_tumor',
                'meningioma_tumor', 'pituitary_tumor']
 
 
 # Read images and return a dataset with images and converted image labels
-def image_reading(model, task):
+def image_reading(model, task, data):
+    if data == 'test':
+        # directory of test dataset (200 images)
+        images_dir = os.path.join(basedir, 'test/image')
+        labels_filename = 'test/label.csv'
+        image_num = 200
+    else:
+        # directory of train dataset (3000 images)
+        images_dir = os.path.join(basedir, 'train/image')
+        labels_filename = 'train/label.csv'
+        image_num = 3000
+
     labels_df = pd.read_csv(os.path.join(basedir, labels_filename))
-    image_names = labels_df.iloc[:3000, 0]  # 3000 images
+    image_names = labels_df.iloc[:image_num, 0]  # get all the image filenames
     features = []
     for image_path in image_names:
         image = imread(os.path.join(images_dir, image_path), as_gray=True)
@@ -38,7 +47,7 @@ def image_reading(model, task):
             feature = np.reshape(feature, (128*128))
         features.append(np.array(feature / 255.0))  # normalization
 
-    label_names = labels_df.iloc[:3000, 1]  # 3000 labels
+    label_names = labels_df.iloc[:image_num, 1]  # get all the image labels
     labels = []
     # Store labels for binary classification
     # 0 represents no tumor, while 1 stands for having a tumor

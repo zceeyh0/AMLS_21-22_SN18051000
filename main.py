@@ -17,7 +17,6 @@ import knnClassifier
 import svmClassifier
 import mlpClassifier
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
 import time
 
 
@@ -38,14 +37,15 @@ if __name__ == '__main__':
 
     # Get image features and labels as a dataset
     start_t = time.time()
-    X_features, Y_labels = imageReading.image_reading(model_names[model - 1],
-                                                      task_names[task - 1])
+    X_train, Y_train = imageReading.image_reading(model_names[model - 1],
+                                                  task_names[task - 1], 'train')
+    X_test, Y_test = imageReading.image_reading(model_names[model - 1],
+                                                task_names[task - 1], 'test')
     print('Time consumed for image reading:',
           round(time.time() - start_t, 2), 's')
-    # Split 3000 images and labels into training and testing datasets
-    # random_state is set to 0 so the dataset will not be randomly divided
-    X_train, X_test, Y_train, Y_test = \
-        train_test_split(X_features, Y_labels, train_size=0.8, random_state=0)
+
+    # show the first 16 MRI images in both datasets
+    # imageReading.show_images(X_train, Y_train)
     # imageReading.show_images(X_test, Y_test)
 
     if model == 1:
@@ -71,26 +71,20 @@ if __name__ == '__main__':
         print('Test error from the best model: ', 1 - test_score)
 
     elif model == 3:
-        # MLP training and validating
-        # mlp = mlpClassifier.mlp()
-        # mlp.fit(X_train, Y_train, epochs=50, validation_split=0.2)
-        # evaluation_score = mlp.evaluate(X_test, Y_test)
-        # print('Validation score from the best model: ', evaluation_score)
-
         scores, evaluation_result, predictions = \
             mlpClassifier.mlp_classification(X_train, Y_train, X_test, Y_test)
 
-        # # Display the prediction accuracy of first 15 images
-        # mlpClassifier.show_images(predictions, X_test, Y_test, 5, 3)
-        #
-        # # Plot epochs versus training and validation accuracy of the MLP model
-        # plt.plot(scores.history['accuracy'], label='accuracy')
-        # plt.plot(scores.history['val_accuracy'], label='val_accuracy')
-        # plt.xlabel('Epoch')
-        # plt.ylabel('Accuracy')
-        # plt.ylim([0.5, 1])
-        # plt.legend(loc='lower right')
-        # plt.show()
+        # Display the prediction accuracy of first 15 images
+        mlpClassifier.show_images(predictions, X_test, Y_test, 5, 3)
+
+        # Plot epochs versus training and validation accuracy of the MLP model
+        plt.plot(scores.history['accuracy'], label='accuracy')
+        plt.plot(scores.history['val_accuracy'], label='val_accuracy')
+        plt.xlabel('Epoch')
+        plt.ylabel('Accuracy')
+        plt.ylim([0.5, 1])
+        plt.legend(loc='lower right')
+        plt.show()
 
         print('Test score from the best model: ', evaluation_result[1])
         print('Test error from the best model: ', 1 - evaluation_result[1])
