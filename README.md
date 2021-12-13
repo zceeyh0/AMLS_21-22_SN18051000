@@ -12,17 +12,17 @@
    Building machine learning models to identify the type of tumor in each MRI image (no tumor, glioma tumor, meningioma tumor, or pituitary tumor). <br>
 
 ## Organisation of files and their roles:
-This repository consists of five python files, a README.md file, a folder and a .csv file (images and labels of the MRI dataset): <br>
+This repository consists of five python files, a README.md file and two folders (MRI dataset for training and testing): <br>
 #### 1. `README.md`: <br>
 Introduction to this repository with instructions on how to compile and run the code. <br>
 #### 2. Folders `train` and `test`:  <br>
-The folder `train` includes 3000 MRI images for training and validation. The folder `test` includes 200 MRI images for evaluation. The two csv files `label.csv` in both folders contain filenames of all the MRI images and their corresponding labels (types of tumor). <br>
+The folder `train` includes 3000 MRI images for training and validation. The folder `test` includes 200 MRI images for evaluating the accuracy of models. The two csv files `label.csv` in both folders contain filenames of all the MRI images and their corresponding labels (types of tumor). <br>
 #### 3. `imageReading.py`: <br>
 This file gets features (pixel values) of images in the MRI dataset and their labels.
 #### 4. `knnClassifier.py`: <br>
-This file builds a KNN Classifier for classification tasks.
+This file builds a KNN (non-deep learning) Classifier for classification tasks.
 #### 5. `svmClassifier.py`: <br>
-This file builds a SVM Classifier for classification tasks.
+This file builds a SVM (non-deep learning) Classifier for classification tasks.
 #### 6. `mlpClassifier.py`: <br>
 This file builds a MLP deep learning model for classification tasks.
 #### 7. `main.py`: <br>
@@ -30,7 +30,7 @@ This file contains the `main` function to run this program.
 
 ## The necessary Python packages/modules are: <br>
 `numpy 1.20.3`, `pandas 1.3.4`, `scikit-learn 1.0.1`, `scikit-image 0.18.3`, `matplotlib 3.5.0`, `tensorflow 2.7.0`, `keras 2.7.0`, `keras_tuner 1.1.0` <br>
-When downloading these packages/modules, other related packages/modules will be downloaded automatically as dependencies.
+When downloading these packages/modules, other essential packages/modules will be downloaded automatically as dependencies.
 
 ## To run the code, please follow the steps below: <br>
 1. Download the whole repository (either by `git clone` or download zip). <br>
